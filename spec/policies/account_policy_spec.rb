@@ -13,13 +13,6 @@ module Pageflow
                     allows: :publisher,
                     but_forbids: :editor,
                     of_account: -> (topic) { topic },
-                    to: :read,
-                    topic: -> { create(:account) }
-
-    it_behaves_like 'a membership-based permission that',
-                    allows: :publisher,
-                    but_forbids: :editor,
-                    of_account: -> (topic) { topic },
                     to: :configure_folder_on,
                     topic: -> { create(:account) }
 
@@ -35,6 +28,13 @@ module Pageflow
                     but_forbids: :publisher,
                     of_account: -> (topic) { topic },
                     to: :manage,
+                    topic: -> { create(:account) }
+
+    it_behaves_like 'a membership-based permission that',
+                    allows: :manager,
+                    but_forbids: :publisher,
+                    of_account: -> (topic) { topic },
+                    to: :read,
                     topic: -> { create(:account) }
 
     it_behaves_like 'a membership-based permission that',
@@ -63,6 +63,23 @@ module Pageflow
                     but_forbids: :publisher,
                     of_account: -> (topic) { topic },
                     to: :destroy_membership_on,
+                    topic: -> { create(:account) }
+
+    describe '#see_link_to_index' do
+      it 'is allowed for managers of at least two accounts' do
+        multi_account_manager = create(:user)
+        create(:account, with_manager: multi_account_manager)
+        create(:account, with_manager: multi_account_manager)
+
+        expect(AccountPolicy.new(multi_account_manager, multi_account_manager.accounts.first))
+          .to permit_action(:see_link_to_index)
+      end
+    end
+
+    it_behaves_like 'an admin permission that',
+                    allows_admins_but_forbids_even_managers: true,
+                    of_account: -> (topic) { topic },
+                    to: :see_link_to_index,
                     topic: -> { create(:account) }
 
     it_behaves_like 'an admin permission that',
