@@ -17,8 +17,12 @@ module Pageflow
         AccountPolicy.new(user, account).index?
       end
 
-      can :see_link_to_index, Account, AccountPolicy::Scope.new(user, Account).resolve do |account|
-        AccountPolicy.new(user, account).see_link_to_index?
+      can :add_member_to, Account do |account|
+        AccountPolicy.new(user, account).add_member_to?
+      end
+
+      can :see_all_instances_of_class_of, Account do |account|
+        AccountPolicy.new(user, account).see_all_instances_of_class_of?
       end
 
       can :create, Membership do |membership|
@@ -30,8 +34,6 @@ module Pageflow
       end
 
       can :index, Membership, MembershipPolicy::Scope.new(user, Membership).indexable
-
-      can :view, [Admin::MembersTab, Admin::RevisionsTab]
 
       can :update, Membership do |membership|
         MembershipPolicy.new(user, membership).edit_role?
@@ -47,6 +49,30 @@ module Pageflow
 
       can :see, :accounts do
         user.admin? || user.memberships.on_accounts.length > 1
+      end
+
+      can :see_own_role_on, :accounts do
+        !user.admin?
+      end
+
+      can :index, :accounts do
+        AccountPolicy.new(user, Account.new).index?
+      end
+
+      can :see_own_role_on, :entries do
+        !user.admin?
+      end
+
+      can :see_entry_admin_tab, Admin::Tab do |tab|
+        Admin::EntryTabPolicy.new(user, tab).see?
+      end
+
+      can :see_theming_admin_tab, Admin::Tab do |tab|
+        Admin::AdminOnlyTabPolicy.new(user, tab).see?
+      end
+
+      can :see_user_admin_tab, Admin::Tab do |tab|
+        Admin::AdminOnlyTabPolicy.new(user, tab).see?
       end
 
       unless user.admin?
@@ -186,7 +212,6 @@ module Pageflow
       end
 
       if user.admin?
-        can :view, Admin::FeaturesTab
         can [:create, :configure_folder_on], Account
         can :destroy, Account do |account|
           account.users.empty? && account.entries.empty?

@@ -9,7 +9,7 @@ module Pageflow
         entry_publication_state_indicator(entry)
       end
       column :title, sortable: 'title' do |entry|
-        link_to(admin_entry_title(entry), admin_entry_path(entry))
+        link_to(entry.title, admin_entry_path(entry))
       end
       column I18n.t('pageflow.admin.entries.members'), class: 'members' do |entry|
         entry_user_badge_list(entry)
@@ -149,9 +149,9 @@ module Pageflow
       render 'attributes_table', entry: entry
       render 'links', entry: entry
 
-      tabs_view(Pageflow.config.admin_resource_tabs.find_by_resource(:entry),
+      tabs_view(Pageflow.config.admin_resource_tabs.find_by_resource(entry),
                 i18n: 'pageflow.admin.resource_tabs',
-                authorize: true,
+                authorize: :see_entry_admin_tab,
                 build_args: [entry])
     end
 

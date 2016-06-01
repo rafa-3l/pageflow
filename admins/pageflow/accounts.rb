@@ -1,22 +1,43 @@
 module Pageflow
   ActiveAdmin.register Account, :as => 'Account' do
     menu :priority => 3,
-         if: proc { authorized?(:see_link_to_index, current_user.accounts.first) }
+         if: proc { authorized?(:index, :accounts) }
 
     config.batch_actions = false
 
     index do
       column :name do |account|
-        link_to account.name, admin_account_path(account)
+        if authorized?(:read, account)
+          link_to(account.name,
+                  admin_account_path(account),
+                  data: {id: account.id})
+        else
+          account.name
+        end
       end
       column :entries_count do |account|
-        account.entries_count
+        account.entries_count if authorized?(:read, account)
       end
       column :users_count do |account|
-        account.users_count
+        account.memberships.size if authorized?(:read, account)
+      end
+      account_memberships = Membership.on_accounts.where(user: current_user)
+      account_roles = {}
+      account_memberships.each do |membership|
+        account_roles.merge!(membership.entity_id => membership.role)
+      end
+      if authorized?(:see_own_role_on, :accounts)
+        column :own_role do |account|
+          own_role = account_roles[account.id]
+          span I18n.t(own_role, scope: 'activerecord.values.pageflow/membership.role'),
+               class: "membership_role #{own_role} tooltip_clue" do
+            div I18n.t(own_role, scope: 'pageflow.admin.users.roles.accounts.tooltip'),
+                class: 'tooltip_bubble'
+          end
+        end
       end
       column :default_theming do |account|
-        account.default_theming.theme_name
+        account.default_theming.theme_name if authorized?(:read, account)
       end
     end
 
@@ -28,14 +49,16 @@ module Pageflow
       render 'account_details', :account => account
       render 'theming_details', :account => account
 
-      tabs_view(Pageflow.config.admin_resource_tabs.find_by_resource(:theming),
-                :i18n => 'pageflow.admin.resource_tabs',
-                :build_args => [account.default_theming])
+      tabs_view(Pageflow.config.admin_resource_tabs.find_by_resource(account.default_theming),
+                i18n: 'pageflow.admin.resource_tabs',
+                authorize: :see_theming_admin_tab,
+                build_args: [account.default_theming])
     end
 
     controller do
       helper Pageflow::Admin::FeaturesHelper
       helper Pageflow::Admin::FormHelper
+      helper Pageflow::Admin::MembershipsHelper
       helper ThemesHelper
       helper WidgetsHelper
 

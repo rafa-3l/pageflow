@@ -65,34 +65,45 @@ module Pageflow
                     to: :destroy_membership_on,
                     topic: -> { create(:account) }
 
-    describe '#see_link_to_index' do
-      it 'is allowed for managers of at least two accounts' do
-        multi_account_manager = create(:user)
-        create(:account, with_manager: multi_account_manager)
-        create(:account, with_manager: multi_account_manager)
-
-        expect(AccountPolicy.new(multi_account_manager, multi_account_manager.accounts.first))
-          .to permit_action(:see_link_to_index)
-      end
-    end
-
-    it_behaves_like 'an admin permission that',
-                    allows_admins_but_forbids_even_managers: true,
-                    of_account: -> (topic) { topic },
-                    to: :see_link_to_index,
-                    topic: -> { create(:account) }
-
     it_behaves_like 'an admin permission that',
                     allows_admins_but_forbids_even_managers: true,
                     of_account: -> (topic) { topic },
                     to: :admin,
                     topic: -> { create(:account) }
+  end
 
-    it_behaves_like 'an admin permission that',
-                    allows_admins_but_forbids_even_managers: true,
-                    of_account: -> (topic) { topic },
-                    to: :index,
-                    topic: -> { create(:account) }
+  describe '.index?' do
+    it 'is permitted when account manager on at least one account' do
+      user = create(:user, :manager, on: create(:account))
+
+      expect(AccountPolicy.new(user, create(:account))).to permit_action(:index)
+    end
+
+    it 'is not permitted when account publisher and entry manager' do
+      user = create(:user, :publisher, on: create(:account))
+      create(:entry, with_manager: user)
+
+      expect(AccountPolicy.new(user, create(:account))).not_to permit_action(:index)
+    end
+  end
+
+  describe '.see_all_instances_of_class_of' do
+    it 'is not permitted when not managing all accounts' do
+      user = create(:user)
+      create(:membership, user: user, entity: create(:account), role: :manager)
+
+      expect(AccountPolicy.new(user, create(:account)))
+        .not_to permit_action(:see_all_instances_of_class_of)
+    end
+
+    it 'is permitted when managing all accounts' do
+      Account.delete_all
+      user = create(:user)
+      account = create(:account)
+      create(:membership, user: user, entity: account, role: :manager)
+
+      expect(AccountPolicy.new(user, account)).to permit_action(:see_all_instances_of_class_of)
+    end
   end
 
   describe '.resolve' do
