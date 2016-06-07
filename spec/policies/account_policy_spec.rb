@@ -380,4 +380,56 @@ module Pageflow
               .new(user, Account).folder_addable).not_to include(account)
     end
   end
+
+  describe '.folder_addable' do
+    it 'includes all accounts for admins' do
+      user = create(:user, :admin)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).to include(create(:account))
+    end
+
+    it 'includes accounts with memberships with correct user, correct account and ' \
+       'sufficient role' do
+      user = create(:user)
+      account = create(:account, with_publisher: user)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).to include(account)
+    end
+
+    it 'does not include accounts with memberships with wrong entity id' do
+      user = create(:user)
+      account = create(:account)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).not_to include(account)
+    end
+
+    it 'does not include accounts with memberships with wrong user' do
+      user = create(:user)
+      wrong_user = create(:user)
+      account = create(:account, with_publisher: wrong_user)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).not_to include(account)
+    end
+
+    it 'does not include accounts with memberships with insufficient role' do
+      user = create(:user)
+      account = create(:account, with_editor: user)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).not_to include(account)
+    end
+
+    it 'does not include accounts with membership with nil account id' do
+      user = create(:user)
+      account = Account.new
+      create(:membership, user: user, entity: account)
+
+      expect(AccountPolicy::Scope
+              .new(user, Account).folder_addable).not_to include(account)
+    end
+  end
 end
