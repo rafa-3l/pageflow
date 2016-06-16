@@ -21,6 +21,10 @@ module Pageflow
       column :users_count do |account|
         account.memberships.size if authorized?(:read, account)
       end
+      column :invited_users_count do |account|
+        account.invitations.size if authorized?(:read, account)
+      end
+
       account_memberships = current_user.memberships.on_accounts
       account_roles = account_memberships.each_with_object({}) do |membership, roles|
         roles.merge!(membership.entity_id => membership.role)

@@ -5,6 +5,7 @@ module Pageflow
     has_many :entries
     has_many :folders, dependent: :destroy
     has_many :memberships, as: :entity, dependent: :destroy
+    has_many :invitations, as: :entity, dependent: :destroy
     has_many :users, through: :memberships, source: :user, class_name: '::User'
     has_many :entry_memberships, through: :entries, source: :memberships
 

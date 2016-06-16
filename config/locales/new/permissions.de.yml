@@ -14,6 +14,7 @@ de:
         entity: 'Entität'
       pageflow/account:
         default_theming: Standard-Theming
+        invited_users_count: '# Eingeladene Benutzer'
         own_role: Eigene Rolle
       pageflow/entry:
         own_role: Rolle
