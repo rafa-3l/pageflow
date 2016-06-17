@@ -29,6 +29,24 @@ module Pageflow
         AccountPolicy.new(user, account).see_badge_belonging_to?
       end
 
+      can :create, Invitation do |invitation|
+        invitation.entity.nil? ||
+          invitation.user.nil? ||
+          (!(invitation.user.entries.include?(invitation.entity) ||
+             invitation.user.accounts.include?(invitation.entity))) &&
+            InvitationPolicy.new(user, invitation).create?
+      end
+
+      can :index, Invitation, InvitationPolicy::Scope.new(user, Invitation).indexable
+
+      can :update, Invitation do |invitation|
+        InvitationPolicy.new(user, invitation).edit_role?
+      end
+
+      can :destroy, Invitation do |invitation|
+        InvitationPolicy.new(user, invitation).destroy?
+      end
+
       can :create, Membership do |membership|
         membership.entity.nil? ||
           membership.user.nil? ||

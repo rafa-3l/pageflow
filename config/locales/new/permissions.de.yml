@@ -8,7 +8,15 @@ de:
         signed_in: Erfolgreich als System-Administrator angemeldet.
   activerecord:
     attributes:
+      pageflow/invitation:
+        account: Konto
+        created_at: Eingeladen am
+        entry: Beitrag
+        full_name: Eingeladen
+        role: Rolle
+        user: Eingeladen
       pageflow/membership:
+        full_name: Name
         role: "Rolle"
         account: 'Konto'
         entity: 'Entität'
@@ -23,6 +31,7 @@ de:
         admin?: System-Administrator
         initial_role: Rolle
         initial_account: Konto
+        invited?: eingeladen
     errors:
       models:
         pageflow/entry:
@@ -33,6 +42,9 @@ de:
       admin_user:
         one: System-Administrator
         other: System-Administratoren
+      pageflow/invitation:
+        one: Einladung
+        other: Einladungen
     values:
       pageflow/membership:
         role:
@@ -51,6 +63,7 @@ de:
         none_addable_tooltip: Kein Beitrag verfügbar
       entries:
         members: Mitglieder
+        no_invited_users: Es sind keine weiteren Nutzer eingeladen.
       memberships:
         on_account:
           role:
@@ -66,11 +79,13 @@ de:
       users:
         accounts: 'Konten'
         edit_role: 'Rolle ändern'
+        delete_account_invitation_confirmation: "Soll die Kontoeinladung des Benutzers wirklich zurückgezogen werden?\n\nACHTUNG: Alle Beitragseinladungen des Benutzers in diesem Konto werden ebenfalls zurückgezogen."
         delete_account_membership_confirmation: "Soll die Kontomitgliedschaft des Benutzers wirklich gelöscht werden?\n\nACHTUNG: Alle Beitragsmitgliedschaften des Benutzers in diesem Konto werden ebenfalls gelöscht."
+        delete_entry_invitation_confirmation: 'Soll die Beitragseinladung wirklich zurückgezogen werden?'
         delete_entry_membership_confirmation: 'Soll die Beitragsmitgliedschaft wirklich gelöscht werden?'
         roles:
-          account_manager: Account Administrator
-          admin: System Administrator
+          account_manager: Konto-Administrator
+          admin: System-Administrator
           member: 'Mitglied'
           previewer: 'Prüfer'
           publisher: 'Veröffentlicher'

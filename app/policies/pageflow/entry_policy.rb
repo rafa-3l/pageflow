@@ -107,7 +107,7 @@ module Pageflow
       manage?
     end
 
-    def destroy_membership_on?
+    def destroy_admission_on?
       manage?
     end
 

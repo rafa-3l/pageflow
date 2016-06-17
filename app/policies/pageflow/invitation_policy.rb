@@ -1,18 +1,16 @@
 module Pageflow
-  class MembershipPolicy
+  class InvitationPolicy
     class Scope
       include Pageflow::AdmissionPolicyScopeMixin
-
-      @table_name = 'pageflow_memberships'
 
       private
 
       def table_name
-        'pageflow_memberships'
+        'pageflow_invitations'
       end
 
       def managed_ids(user)
-        user.memberships.on_accounts.where(role: 'manager').map(&:entity_id)
+        user.invitations.on_accounts.where(role: 'manager').map(&:entity_id)
       end
     end
     include Pageflow::AdmissionPolicyMixin

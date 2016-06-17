@@ -18,6 +18,18 @@ module Pageflow
         resources :accounts do
           resources :memberships
         end
+
+        resources :users do
+          resources :invitations
+        end
+
+        resources :entries do
+          resources :invitations
+        end
+
+        resources :accounts do
+          resources :invitations
+        end
       end
 
       mount Pageflow::Engine, at: '/'

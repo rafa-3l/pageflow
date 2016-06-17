@@ -62,7 +62,7 @@ module Pageflow
                     allows: :manager,
                     but_forbids: :publisher,
                     of_account: -> (topic) { topic },
-                    to: :destroy_membership_on,
+                    to: :destroy_admission_on,
                     topic: -> { create(:account) }
 
     it_behaves_like 'an admin permission that',

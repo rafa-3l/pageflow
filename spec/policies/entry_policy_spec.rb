@@ -31,7 +31,7 @@ module Pageflow
                     but_forbids: :publisher,
                     of_entry: -> (topic) { topic },
                     of_account: -> (topic) { topic.account },
-                    to: :destroy_membership_on,
+                    to: :destroy_admission_on,
                     topic: -> { create(:entry) }
 
     it_behaves_like 'a membership-based permission that',
