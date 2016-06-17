@@ -18,6 +18,14 @@ module Pageflow
       entity.decrement(:invited_users_count)
     end
 
+    def full_name
+      [first_name, last_name] * ' '
+    end
+
+    def formal_name
+      [last_name, first_name] * ', '
+    end
+
     private
 
     def account_membership_or_invitation_exists

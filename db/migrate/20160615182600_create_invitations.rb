@@ -3,8 +3,8 @@ class CreateInvitations < ActiveRecord::Migration
     create_table :pageflow_invitations do |t|
       t.integer :user_id
       t.integer :entity_id
-      t.string :firstname
-      t.string :lastname
+      t.string :first_name
+      t.string :last_name
       t.datetime :created_at
       t.datetime :updated_at
       t.string :entity_type
