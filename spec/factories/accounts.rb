@@ -9,6 +9,11 @@ FactoryGirl.define do
     # inline membership creation
 
     transient do
+      invite_member nil
+      invite_previewer nil
+      invite_editor nil
+      invite_publisher nil
+      invite_manager nil
       with_member nil
       with_previewer nil
       with_editor nil
@@ -17,6 +22,26 @@ FactoryGirl.define do
     end
 
     after(:create) do |account, evaluator|
+      create(:invitation,
+             entity: account,
+             user: evaluator.invite_member,
+             role: :member) if evaluator.invite_member
+      create(:invitation,
+             entity: account,
+             user: evaluator.invite_previewer,
+             role: :previewer) if evaluator.invite_previewer
+      create(:invitation,
+             entity: account,
+             user: evaluator.invite_editor,
+             role: :editor) if evaluator.invite_editor
+      create(:invitation,
+             entity: account,
+             user: evaluator.invite_publisher,
+             role: :publisher) if evaluator.invite_publisher
+      create(:invitation,
+             entity: account,
+             user: evaluator.invite_manager,
+             role: :manager) if evaluator.invite_manager
       create(:membership,
              entity: account,
              user: evaluator.with_member,

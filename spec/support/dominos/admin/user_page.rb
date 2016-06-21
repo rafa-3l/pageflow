@@ -95,7 +95,7 @@ module Dom
 
       def has_role_flag?(role)
         within(node) do
-          has_selector?(".memberships .#{role}")
+          has_selector?(".memberships .#{role}") || has_selector?(".invitations .#{role}")
         end
       end
     end

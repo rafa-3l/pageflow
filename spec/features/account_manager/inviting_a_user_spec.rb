@@ -38,12 +38,12 @@ feature 'as account manager, inviting a user' do
     visit(admin_users_path)
     Dom::Admin::UserPage.first.invite_user_link.click
     Dom::Admin::UserForm.first.submit_with(account_id: account.id,
-                                           first_name: 'John',
+                                           first_name: 'What\'s-his-name',
                                            last_name: 'Doe',
                                            email: 'existing_user@example.org')
     visit(admin_users_path)
 
-    expect(Dom::Admin::UserInIndexTable.find_by_full_name('Walter Doe').account_names)
+    expect(Dom::Admin::UserInIndexTable.find_by_full_name("John Doe").account_names)
       .to include(account.name)
   end
 end

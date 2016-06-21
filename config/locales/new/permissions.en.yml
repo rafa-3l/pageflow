@@ -11,8 +11,8 @@ en:
       pageflow/invitation:
         created_at: Invited at
         entry: Story
-        full_name: Invited
-        user: Invited
+        full_name: Invitation for
+        user: Invitation for
       pageflow/membership:
         account: 'Account'
         entity: 'Entity'
@@ -54,6 +54,8 @@ en:
       account:
         add: 'Add Account'
         none_addable_tooltip: No account available
+      accounts:
+        no_invited_users: No further users invited
       entry:
         add: 'Add Story'
         none_addable_tooltip: No story available

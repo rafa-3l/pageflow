@@ -16,6 +16,10 @@ module Pageflow
       # inline membership creation
 
       transient do
+        invite_previewer nil
+        invite_editor nil
+        invite_publisher nil
+        invite_manager nil
         with_previewer nil
         with_editor nil
         with_publisher nil
@@ -23,6 +27,22 @@ module Pageflow
       end
 
       after(:create) do |entry, evaluator|
+        create(:invitation,
+               entity: entry,
+               user: evaluator.invite_previewer,
+               role: :previewer) if evaluator.invite_previewer
+        create(:invitation,
+               entity: entry,
+               user: evaluator.invite_editor,
+               role: :editor) if evaluator.invite_editor
+        create(:invitation,
+               entity: entry,
+               user: evaluator.invite_publisher,
+               role: :publisher) if evaluator.invite_publisher
+        create(:invitation,
+               entity: entry,
+               user: evaluator.invite_manager,
+               role: :manager) if evaluator.invite_manager
         create(:membership,
                entity: entry,
                user: evaluator.with_previewer,

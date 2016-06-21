@@ -150,14 +150,16 @@ module Pageflow
       def create_resource(user)
         verify_quota!(:users, params[:user][:account])
         known_user = User.find_by(email: resource.email)
-        membership_user = known_user ? known_user : resource
-        membership_params = {user: membership_user,
+        invited_user = known_user ? known_user : resource
+        invitation_params = {user: invited_user,
                              entity_id: resource.initial_account,
-                             entity_type: 'Pageflow::Account'}
+                             entity_type: 'Pageflow::Account',
+                             first_name: resource.first_name,
+                             last_name: resource.last_name}
         if resource.initial_role.present?
-          membership_params.merge!(role: resource.initial_role.to_sym)
+          invitation_params.merge!(role: resource.initial_role.to_sym)
         end
-        Membership.create(membership_params)
+        Invitation.create(invitation_params)
         if known_user
           known_user
         else

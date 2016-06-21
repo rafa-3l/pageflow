@@ -9,6 +9,7 @@ module Pageflow
                foreign_key: 'entity_id'
 
     validate :account_membership_or_invitation_exists, if: :on_entry?
+    validates :first_name, :last_name, presence: true
 
     after_create do
       entity.increment(:invited_users_count)

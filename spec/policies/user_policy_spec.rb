@@ -62,10 +62,27 @@ module Pageflow
         expect(UserPolicy::Scope.new(account_manager, ::User).resolve).to include(managed_user)
       end
 
+      it 'includes invited member on managed account' do
+        account_manager = create(:user)
+        managed_user = create(:user)
+        create(:account, invite_member: managed_user, with_manager: account_manager)
+
+        expect(UserPolicy::Scope.new(account_manager, ::User).resolve).to include(managed_user)
+      end
+
       it 'does not include member on publisher account' do
         account_publisher = create(:user)
         managed_user = create(:user)
         create(:account, with_member: managed_user, with_publisher: account_publisher)
+
+        expect(UserPolicy::Scope
+                .new(account_publisher, ::User).resolve).not_to include(managed_user)
+      end
+
+      it 'does not include invited member on publisher account' do
+        account_publisher = create(:user)
+        managed_user = create(:user)
+        create(:account, invite_member: managed_user, with_publisher: account_publisher)
 
         expect(UserPolicy::Scope
                 .new(account_publisher, ::User).resolve).not_to include(managed_user)
@@ -79,6 +96,14 @@ module Pageflow
         expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
       end
 
+      it 'does not include invited previewer on managed entry' do
+        account_manager = create(:user)
+        managed_user = create(:user)
+        create(:entry, invite_previewer: managed_user, with_manager: account_manager)
+
+        expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
+      end
+
       it 'does not include member on other account' do
         account_manager = create(:user)
         managed_user = create(:user)
@@ -88,11 +113,29 @@ module Pageflow
         expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
       end
 
+      it 'does not include invited member on other account' do
+        account_manager = create(:user)
+        managed_user = create(:user)
+        create(:account, with_manager: account_manager)
+        create(:account, invite_member: managed_user)
+
+        expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
+      end
+
       it 'does not include user with nil id' do
         account_manager = create(:user)
         managed_user = User.new
         create(:account, with_manager: account_manager)
         create(:account, with_member: managed_user)
+
+        expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
+      end
+
+      it 'does not include invited user with nil id' do
+        account_manager = create(:user)
+        managed_user = User.new
+        create(:account, with_manager: account_manager)
+        create(:account, invite_member: managed_user)
 
         expect(UserPolicy::Scope.new(account_manager, ::User).resolve).not_to include(managed_user)
       end

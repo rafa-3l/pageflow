@@ -16,6 +16,36 @@ module Pageflow
       password '@qwert12345'
       password_confirmation { password }
 
+      trait :invited_member do
+        after(:create) do |user, evaluator|
+          create(:invitation, user: user, entity: evaluator.on, role: :member)
+        end
+      end
+
+      trait :invited_previewer do
+        after(:create) do |user, evaluator|
+          create(:invitation, user: user, entity: evaluator.on, role: :previewer)
+        end
+      end
+
+      trait :invited_editor do
+        after(:create) do |user, evaluator|
+          create(:invitation, user: user, entity: evaluator.on, role: :editor)
+        end
+      end
+
+      trait :invited_publisher do
+        after(:create) do |user, evaluator|
+          create(:invitation, user: user, entity: evaluator.on, role: :publisher)
+        end
+      end
+
+      trait :invited_manager do
+        after(:create) do |user, evaluator|
+          create(:invitation, user: user, entity: evaluator.on, role: :manager)
+        end
+      end
+
       trait :member do
         after(:create) do |user, evaluator|
           create(:membership, user: user, entity: evaluator.on, role: :member)

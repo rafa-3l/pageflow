@@ -11,7 +11,7 @@ feature 'as account manager, managing user roles' do
       visit(admin_user_path(user))
 
       Dom::Admin::UserPage.first.add_account_membership_link.click
-      Dom::Admin::MembershipForm.first.submit_with(role: 'publisher', entity: account)
+      Dom::Admin::InvitationForm.first.submit_with(role: 'publisher', entity: account)
       expect(Dom::Admin::UserPage.first).to have_role_flag('publisher')
     end
 
@@ -63,7 +63,7 @@ feature 'as account manager, managing user roles' do
       visit(admin_account_path(account))
 
       Dom::Admin::AccountPage.first.add_account_membership_link.click
-      Dom::Admin::MembershipForm.first.submit_with(role: 'publisher', entity: account)
+      Dom::Admin::InvitationForm.first.submit_with(role: 'publisher', entity: account)
       expect(Dom::Admin::AccountPage.first).to have_role_flag('publisher')
     end
 

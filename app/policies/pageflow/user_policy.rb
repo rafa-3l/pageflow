@@ -15,8 +15,10 @@ module Pageflow
           manager_accounts_ids = AccountPolicy::Scope
                                  .new(@user, Account).member_addable.map(&:id)
 
-          scope.joins(:memberships)
-            .where('pageflow_memberships.entity_type = "Pageflow::Account"')
+          scope.joins('LEFT JOIN pageflow_memberships ON pageflow_memberships.user_id = users.id')
+            .joins('LEFT JOIN pageflow_invitations ON pageflow_invitations.user_id = users.id')
+            .where('pageflow_memberships.entity_type = "Pageflow::Account" OR '\
+                   'pageflow_invitations.entity_type = "Pageflow::Account"')
             .where(membership_in_managed_account(manager_accounts_ids)).distinct
         end
       end
@@ -28,7 +30,8 @@ module Pageflow
       end
 
       def membership_in_managed_account(accounts_ids)
-        sanitize_sql_array(['pageflow_memberships.entity_id IN (:accounts_ids)',
+        sanitize_sql_array(['pageflow_memberships.entity_id IN (:accounts_ids) OR '\
+                            'pageflow_invitations.entity_id IN (:accounts_ids)',
                             accounts_ids: accounts_ids])
       end
     end

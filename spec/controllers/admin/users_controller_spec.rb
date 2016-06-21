@@ -121,7 +121,7 @@ module Pageflow
         end.not_to change { User.count }
       end
 
-      it 'creates user via membership in spite of exhausted quota ' \
+      it 'does not create user via invitation in spite of exhausted quota ' \
          'if their e-mail was already in the database' do
         account = create(:account)
         create(:user, email: 'existing_user@example.com')
@@ -135,10 +135,10 @@ module Pageflow
                user: {email: 'existing_user@example.com',
                       initial_role: :member,
                       initial_account: account}
-        end.not_to change { account.users.count }
+        end.not_to change { account.invited_users.count }
       end
 
-      it 'creates account membership if e-mail unknown but quota allows it' do
+      it 'creates account invitation if e-mail unknown but quota allows it' do
         account = create(:account)
 
         sign_in(create(:user, :manager, on: account))
@@ -151,7 +151,7 @@ module Pageflow
                       last_name: 'Doe',
                       initial_role: :member,
                       initial_account: account}
-        end.to change { account.users.count }
+        end.to change { account.invited_users.count }
       end
 
       it 'creates invited user if e-mail unknown but quota allows it' do

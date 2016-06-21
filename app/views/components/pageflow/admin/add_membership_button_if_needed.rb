@@ -6,13 +6,17 @@ module Pageflow
       def build(user, parent, entity_type)
         if parent.class.to_s == 'User'
           button_label = I18n.t("pageflow.admin.#{entity_type}.add")
-          path = new_admin_user_membership_path(parent, entity_type: entity_type.to_sym)
+          if entity_type.to_sym == :entry
+            path = new_admin_user_membership_path(parent, entity_type: :entry)
+          else
+            path = new_admin_user_invitation_path(parent, entity_type: :account)
+          end
           data_tooltip = I18n.t("pageflow.admin.#{entity_type}.none_addable_tooltip")
           rel = "add_#{entity_type}_membership"
         elsif parent.class.to_s == 'Pageflow::Entry'
           path = new_admin_entry_membership_path(parent, entity_type: entity_type.to_sym)
         else
-          path = new_admin_account_membership_path(parent, entity_type: entity_type.to_sym)
+          path = new_admin_account_invitation_path(parent, entity_type: entity_type.to_sym)
         end
 
         unless parent.class.to_s == 'User'

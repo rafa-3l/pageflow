@@ -35,7 +35,7 @@ module Pageflow
     end
 
     def managed_account_ids
-      managed_ids(user)
+      user.memberships.on_accounts.where(role: 'manager').map(&:entity_id)
     end
 
     def common_entry_ids

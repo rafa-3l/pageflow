@@ -12,9 +12,9 @@ de:
         account: Konto
         created_at: Eingeladen am
         entry: Beitrag
-        full_name: Eingeladen
+        full_name: Einladung an
         role: Rolle
-        user: Eingeladen
+        user: Einladung an
       pageflow/membership:
         full_name: Name
         role: "Rolle"
@@ -58,6 +58,8 @@ de:
       account:
         add: 'Konto hinzufügen'
         none_addable_tooltip: Kein Konto verfügbar
+      accounts:
+        no_invited_users: Es sind keine weiteren Nutzer eingeladen.
       entry:
         add: 'Beitrag hinzufügen'
         none_addable_tooltip: Kein Beitrag verfügbar
