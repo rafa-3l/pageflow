@@ -4,22 +4,22 @@ module Pageflow
   class InvitedUser < User
     attr_accessor :initial_account, :initial_role
 
-    before_create :prepare_invitation
-    after_create :send_invitation
+    before_create :prepare_password_reset
+    after_create :send_password_reset
 
     def send_invitation!
-      prepare_invitation
+      prepare_password_reset
       save(validate: false)
-      send_invitation
+      send_password_reset
     end
 
     private
 
-    def prepare_invitation
-      @token = generate_reset_password_token
+    def prepare_password_reset
+      @token = generate_password_reset_token
     end
 
-    def generate_reset_password_token
+    def generate_password_reset_token
       raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
 
       self.reset_password_token = enc
@@ -32,8 +32,8 @@ module Pageflow
       false
     end
 
-    def send_invitation
-      UserMailer.invitation('user_id' => id, 'password_token' => @token).deliver
+    def send_password_reset
+      UserMailer.invitation_signin('user_id' => id, 'password_token' => @token).deliver
     end
   end
 end

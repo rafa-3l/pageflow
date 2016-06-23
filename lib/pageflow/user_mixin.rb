@@ -79,6 +79,18 @@ module Pageflow
       end
     end
 
+    def confirm_invitations!
+      invitations.each do |invitation|
+        membership_attributes = invitation.attributes.symbolize_keys.slice :entity_id, :entity_type, :role
+
+        membership_attributes.merge! name: full_name, role: membership_attributes[:role].to_sym
+
+        memberships.create membership_attributes
+
+        invitation.destroy
+      end
+    end
+
     private
 
     def needs_password?(attributes)

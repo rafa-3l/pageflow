@@ -786,6 +786,8 @@ de:
           delete_account_hint: Du möchtest die Anwendung nicht mehr nutzen?
           deleted: Dein Benutzerkonto wurde gelöscht.
           updated: Dein Profil wurde aktualisiert.
+          confirm_invitations: CONFIRM_INVITATIONS
+          invitations_confirmed: INVITATIONS_CONFIRMED
         none: Sie haben keine Beiträge.
         resend_invitation: Einladung erneut verschicken
         resent_invitation: Der Benutzer wurde erneut per E-Mail eingeladen.
@@ -1496,6 +1498,12 @@ de:
     unauthorized: Sie sind nicht berechtigt diese Seite anzuzeigen.
     user_mailer:
       invitation:
+        ending: Dankeschön und viel Spaß,
+        greeting: Dein Pageflow-Team
+        instruction: Willkommen bei Pageflow. Please use the following link to confirm your membership.
+        salutation: Hallo %{first_name}
+        subject: Ihre Pageflow Einladung
+      invitation_signin:
         ending: Dankeschön und viel Spaß,
         greeting: Dein Pageflow-Team
         instruction: Willkommen bei Pageflow. Bitte lege über den folgenden Link ein Kennwort fest. In Zukunft kannst Du Dich dann mit Deiner E-Mail-Adresse anmelden.

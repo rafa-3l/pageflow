@@ -110,6 +110,13 @@ module Pageflow
       end
     end
 
+    collection_action 'confirm_invitations',
+                      title: 'pageflow.admin.users.me.confirm_invitations', method: :get,
+                      as: :du_hast do
+      current_user.confirm_invitations!
+      redirect_to admin_root_path, notice: I18n.t('pageflow.admin.users.me.invitations_confirmed')
+    end
+
     member_action :resend_invitation, method: :post do
       InvitedUser.find(params[:id]).send_invitation!
       redirect_to :back, notice: I18n.t('pageflow.admin.users.resent_invitation')

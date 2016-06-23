@@ -12,6 +12,7 @@ module Pageflow
     validates :first_name, :last_name, presence: true
 
     after_create do
+      send_invitation
       entity.increment(:invited_users_count)
     end
 
@@ -33,6 +34,10 @@ module Pageflow
       unless user.accounts.include?(entity.account) || user.invited_accounts.include?(entity.account)
         errors[:base] << 'Entry Membership misses presupposed Membership on account of entry'
       end
+    end
+
+    def send_invitation
+      UserMailer.invitation('user_id' => user_id).deliver
     end
   end
 end

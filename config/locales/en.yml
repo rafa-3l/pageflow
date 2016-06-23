@@ -786,6 +786,8 @@ en:
           delete_account_hint: You don't want to continue using Pageflow?
           deleted: Your account has been deleted. You may sign-up for a new one at any time!
           updated: Your profile has been updated.
+          confirm_invitations: CONFIRM INVITATIONS
+          invitations_confirmed: INVITATIONS CONFIRMED
         none: There are no stories.
         resend_invitation: Resend invitation email
         resent_invitation: The invitation email has been resent.
@@ -1485,7 +1487,13 @@ en:
       invitation:
         ending: Thank you and have fun,
         greeting: Your Pageflow Team
-        instruction: 'Welcome to Pageflow. Please use the following link to set your personal password. You may use your email address to sign-in. '
+        instruction: Welcome to Pageflow. Please use the following link to confirm your membership.
+        salutation: Hello %{first_name}
+        subject: Your Pageflow Invitation
+      invitation_signin:
+        ending: Thank you and have fun,
+        greeting: Your Pageflow Team
+        instruction: Welcome to Pageflow. Please use the following link to set your personal password. You may use your email address to sign-in.
         salutation: Hello %{first_name}
         subject: Your Pageflow Invitation
     widgets:
