@@ -31,10 +31,10 @@ module Pageflow
     def turn_into_membership
       ActiveRecord::Base.transaction do
         Membership.create!({ user: user,
-                            name: full_name,
-                            entity_id: entity_id,
-                            entity_type: entity_type,
-                            role: role.to_sym })
+                             name: full_name,
+                             entity_id: entity_id,
+                             entity_type: entity_type,
+                             role: role.to_sym })
 
         destroy
       end
