@@ -79,5 +79,20 @@ module Pageflow
         end.to change { account.invitations.count }.by(-2)
       end
     end
+
+    describe 'after_create callback' do
+      it 'delivers invitation email' do
+        account = create(:account)
+        user = create(:user)
+        invitation = create(:invitation, entity: account, user: user)
+
+        expect(UserMailer).to receive(:invitation)
+          .with('user_id' => invitation.user_id)
+          .and_return(double(deliver: true))
+
+        invitation.send_invitation!
+      end
+    end
+
   end
 end

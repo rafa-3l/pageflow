@@ -13,7 +13,7 @@ module Pageflow
 
     after_create do
       entity.increment(:invited_users_count)
-      send_invitation
+      send_invitation!
     end
 
     after_destroy do
@@ -44,16 +44,16 @@ module Pageflow
       all.each(&:turn_into_membership)
     end
 
+    def send_invitation!
+      UserMailer.invitation('user_id' => user_id).deliver
+    end
+
     private
 
     def account_membership_or_invitation_exists
       unless user.accounts.include?(entity.account) || user.invited_accounts.include?(entity.account)
         errors[:base] << 'Entry Membership misses presupposed Membership on account of entry'
       end
-    end
-
-    def send_invitation
-      UserMailer.invitation('user_id' => user_id).deliver
     end
   end
 end
