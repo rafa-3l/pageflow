@@ -7,7 +7,7 @@ module Pageflow
     before_create :prepare_password_reset
     after_create :send_password_reset
 
-    def send_invitation!
+    def send_password_reset!
       prepare_password_reset
       save(validate: false)
       send_password_reset

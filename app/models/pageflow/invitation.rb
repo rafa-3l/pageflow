@@ -12,8 +12,8 @@ module Pageflow
     validates :first_name, :last_name, presence: true
 
     after_create do
-      send_invitation
       entity.increment(:invited_users_count)
+      send_invitation
     end
 
     after_destroy do
@@ -26,6 +26,22 @@ module Pageflow
 
     def formal_name
       [last_name, first_name] * ', '
+    end
+
+    def turn_into_membership
+      ActiveRecord::Base.transaction do
+        Membership.create({ user: user,
+                            name: full_name,
+                            entity_id: entity_id,
+                            entity_type: entity_type,
+                            role: role})
+
+        destroy
+      end
+    end
+
+    def self.turn_into_memberships
+      all.each(&:turn_into_membership)
     end
 
     private

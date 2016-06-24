@@ -37,5 +37,25 @@ module Pageflow
         end.to change { entry.invited_users_count }.by(-1)
       end
     end
+
+    describe '#turn_into_membership' do
+      it 'turns the invitation into a membership' do
+        account = create(:account)
+        invitation = create(:invitation, entity: account)
+
+        expect do
+          invitation.turn_into_membership
+        end.to change { account.memberships.count }.by(1)
+      end
+
+      it 'destroys the invitation after creating the membership' do
+        account = create(:account)
+        invitation = create(:invitation, entity: account)
+
+        expect do
+          invitation.turn_into_membership
+        end.to change { account.invitations.count }.by(-1)
+      end
+    end
   end
 end
