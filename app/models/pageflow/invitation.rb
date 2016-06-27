@@ -7,9 +7,9 @@ module Pageflow
     belongs_to :account,
                -> { where(pageflow_invitations: {entity_type: 'Pageflow::Account'}) },
                foreign_key: 'entity_id'
-
     validate :account_membership_or_invitation_exists, if: :on_entry?
     validates :first_name, :last_name, presence: true
+    scope :by_user, ->(user) { where(user_id: user) }
 
     after_create do
       entity.increment(:invited_users_count)
@@ -45,7 +45,7 @@ module Pageflow
     end
 
     def send_invitation!
-      UserMailer.invitation('user_id' => user_id).deliver
+      UserMailer.invitation('user_id' => user_id, 'account_id' => entity_id).deliver if on_account?
     end
 
     private

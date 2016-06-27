@@ -14,6 +14,7 @@ module Pageflow
 
     def invitation(options)
       @user = User.find(options['user_id'])
+      @account_id = options['account_id']
 
       I18n.with_locale(@user.locale) do
         headers('X-Language' => I18n.locale)

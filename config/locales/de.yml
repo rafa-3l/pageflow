@@ -788,6 +788,7 @@ de:
           updated: Dein Profil wurde aktualisiert.
           confirm_invitations: CONFIRM_INVITATIONS
           invitations_confirmed: INVITATIONS_CONFIRMED
+          no_invitations_available: NO_INVITATIONS_AVAILABLE
         none: Sie haben keine Beiträge.
         resend_invitation: Einladung erneut verschicken
         resent_invitation: Der Benutzer wurde erneut per E-Mail eingeladen.

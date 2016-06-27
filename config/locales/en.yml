@@ -786,8 +786,9 @@ en:
           delete_account_hint: You don't want to continue using Pageflow?
           deleted: Your account has been deleted. You may sign-up for a new one at any time!
           updated: Your profile has been updated.
-          confirm_invitations: CONFIRM INVITATIONS
-          invitations_confirmed: INVITATIONS CONFIRMED
+          confirm_invitations: CONFIRM_INVITATIONS
+          invitations_confirmed: INVITATIONS_CONFIRMED
+          no_invitations_available: NO_INVITATIONS_AVAILABLE
         none: There are no stories.
         resend_invitation: Resend invitation email
         resent_invitation: The invitation email has been resent.
