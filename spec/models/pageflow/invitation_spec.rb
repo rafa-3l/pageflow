@@ -58,7 +58,7 @@ module Pageflow
       end
     end
 
-    describe '#turn_into_memberships' do
+    describe '@turn_into_memberships' do
       it 'turns the invitations collection into a memberships' do
         account = create(:account)
         create(:invitation, entity: account)
