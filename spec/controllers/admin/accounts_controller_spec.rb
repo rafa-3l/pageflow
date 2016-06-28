@@ -307,5 +307,32 @@ module Admin
         expect { delete :destroy, id: account }.not_to change { Pageflow::Account.count }
       end
     end
+
+    describe '#confirm_invitations' do
+      it 'redirects with warning when there is no invitation for the user/account' do
+        account = create(:account)
+        user = create(:user)
+
+        sign_in(user)
+        request.env['HTTP_REFERER'] = admin_users_path
+
+        get(:confirm_invitations, id: account.id)
+
+        expect(flash[:alert]).to eq(I18n.t('pageflow.admin.users.me.no_invitations_available'))
+      end
+
+      it 'redirects with confirmation message that the invitations were turned into memberships' do
+        account = create(:account)
+        user = create(:user)
+        create(:invitation, entity: account, user: user)
+
+        sign_in(user)
+        request.env['HTTP_REFERER'] = admin_users_path
+
+        get(:confirm_invitations, id: account.id)
+
+        expect(flash[:notice]).to eq(I18n.t('pageflow.admin.users.me.invitations_confirmed'))
+      end
+    end
   end
 end
