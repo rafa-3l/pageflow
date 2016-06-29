@@ -141,19 +141,19 @@ module Pageflow
     end
 
     member_action 'confirm_invitations',
-                  title: 'pageflow.admin.users.me.confirm_invitations', method: :get do
+                  title: 'pageflow.admin.users.confirm_invitations', method: :get do
       account = Pageflow::Account.find(params[:id])
 
       invitations = account.invitations.by_user(current_user)
 
       if invitations.empty?
         redirect_to admin_root_path,
-                    alert: I18n.t('pageflow.admin.users.me.no_invitations_available')
+                    alert: I18n.t('pageflow.admin.users.no_invitations_available')
       else
         invitations.turn_into_memberships
 
         redirect_to admin_root_path,
-                    notice: I18n.t('pageflow.admin.users.me.invitations_confirmed')
+                    notice: I18n.t('pageflow.admin.users.invitations_confirmed')
       end
     end
   end

@@ -786,12 +786,14 @@ de:
           delete_account_hint: Du möchtest die Anwendung nicht mehr nutzen?
           deleted: Dein Benutzerkonto wurde gelöscht.
           updated: Dein Profil wurde aktualisiert.
-          confirm_invitations: CONFIRM_INVITATIONS
-          invitations_confirmed: INVITATIONS_CONFIRMED
-          no_invitations_available: NO_INVITATIONS_AVAILABLE
         none: Sie haben keine Beiträge.
         resend_invitation: Einladung erneut verschicken
         resent_invitation: Der Benutzer wurde erneut per E-Mail eingeladen.
+        confirm_invitations: CONFIRM_INVITATIONS
+        invitations_confirmed: INVITATIONS_CONFIRMED
+        no_invitations_available: NO_INVITATIONS_AVAILABLE
+        resend_password_reset: RESEND_PASSWORD_RESET
+        resent_password_reset: RESENT_PASSWORD_RESET
         role_hint:
           admin: Konto Administratoren können Benutzer und Beiträge des eigenen Kontos verwalten. System Admisitratoren haben Vollzugriff auf alle Konten.
           others: Konto Administratoren können Benutzer und Beiträge verwalten.
@@ -1509,7 +1511,7 @@ de:
         greeting: Dein Pageflow-Team
         instruction: Willkommen bei Pageflow. Bitte lege über den folgenden Link ein Kennwort fest. In Zukunft kannst Du Dich dann mit Deiner E-Mail-Adresse anmelden.
         salutation: Hallo %{first_name}
-        subject: Ihre Pageflow Einladung
+        subject: Anleitung um dein Passwort zurückzusetzen
     widgets:
       none: "(Kein)"
       roles:

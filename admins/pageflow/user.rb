@@ -45,9 +45,9 @@ module Pageflow
         end
 
         para do
-          link_to I18n.t('pageflow.admin.users.resend_invitation'),
-                  resend_invitation_admin_user_path(user),
-                  method: :post, class: 'button', data: {rel: 'resend_invitation'}
+          link_to I18n.t('pageflow.admin.users.resend_password_reset'),
+                  resend_password_reset_admin_user_path(user),
+                  method: :post, class: 'button', data: {rel: 'resend_password_reset'}
         end
       end
 
@@ -110,9 +110,9 @@ module Pageflow
       end
     end
 
-    member_action :resend_invitation, method: :post do
+    member_action :resend_password_reset, method: :post do
       InvitedUser.find(params[:id]).send_password_reset!
-      redirect_to :back, notice: I18n.t('pageflow.admin.users.resent_invitation')
+      redirect_to :back, notice: I18n.t('pageflow.admin.users.resent_password_reset')
     end
 
     member_action :suspend, method: :post do

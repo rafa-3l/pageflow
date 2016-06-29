@@ -318,7 +318,7 @@ module Admin
 
         get(:confirm_invitations, id: account.id)
 
-        expect(flash[:alert]).to eq(I18n.t('pageflow.admin.users.me.no_invitations_available'))
+        expect(flash[:alert]).to eq(I18n.t('pageflow.admin.users.no_invitations_available'))
       end
 
       it 'redirects with confirmation message that the invitations were turned into memberships' do
@@ -331,7 +331,7 @@ module Admin
 
         get(:confirm_invitations, id: account.id)
 
-        expect(flash[:notice]).to eq(I18n.t('pageflow.admin.users.me.invitations_confirmed'))
+        expect(flash[:notice]).to eq(I18n.t('pageflow.admin.users.invitations_confirmed'))
       end
     end
   end
